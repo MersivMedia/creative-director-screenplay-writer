@@ -1,0 +1,26 @@
+name: screenwriter
+services:
+- name: web
+  source_dir: /
+  github:
+    branch: main
+    deploy_on_push: true
+    repo: your-username/screenwriter
+  dockerfile_path: Dockerfile
+  instance_count: 2
+  instance_size_slug: basic-xxs
+  http_port: 8501
+  envs:
+  - key: OPENAI_API_KEY
+    scope: RUN_TIME
+    type: SECRET
+  routes:
+  - path: /
+  health_check:
+    http_path: /_stcore/health
+    initial_delay_seconds: 10
+    period_seconds: 10
+
+alerts:
+- rule: DEPLOYMENT_FAILED
+- rule: DOMAIN_FAILED 
